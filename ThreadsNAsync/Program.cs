@@ -123,4 +123,33 @@ internal class Program
             Console.WriteLine(message);
         }
     }
+
+    static async Task HandleRandomEventAsync(Car car, Random random)
+    {
+        int roll = random.Next(1, 51); // 1–50
+
+        if (roll == 1)
+        {
+            ConsoleWriteLineSafe($"{car.Name}: Slut på bensin! Stannar 15 sekunder.");
+            await Task.Delay(15000);
+        }
+        else if (roll <= 3)
+        {
+            ConsoleWriteLineSafe($"{car.Name}: Punktering! Stannar 10 sekunder.");
+            await Task.Delay(10000);
+        }
+        else if (roll <= 8)
+        {
+            ConsoleWriteLineSafe($"{car.Name}: Fågel på vindrutan! Stannar 5 sekunder.");
+            await Task.Delay(5000);
+        }
+        else if (roll <= 18)
+        {
+            lock (_lock)
+            {
+                car.SpeedKmH -= 1;
+            }
+            ConsoleWriteLineSafe($"{car.Name}: Motorfel! Hastigheten sänks till {car.SpeedKmH} km/h.");
+        }
+    }
 }
